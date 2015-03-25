@@ -3,6 +3,9 @@
  */
 
 import java.util.Random;
+import bubblesort.Bubble;
+import quicksort.Quick;
+import mergesort.Merge;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +18,6 @@ public class Main {
         int SIZE;
         boolean ascend;
         Random random = new Random();
-        Bubble b;
 
         try {
             SIZE = Integer.parseInt(args[3]);
@@ -39,12 +41,15 @@ public class Main {
         switch(args[0].toLowerCase()) {
             case "bubble":
                 Bubble b = new Bubble(args[1], ascend, SIZE);
+                b.go();
                 break;
             case "quick":
-                Quick q = new Qiuck(args[1], ascend, SIZE);
+                Quick q = new Quick(args[1], ascend, SIZE);
+                q.go();
                 break;
             case "merge":
                 Merge m = new Merge(args[1], ascend, SIZE);
+                m.go();
                 break;
             default:
                 System.out.println("Invalid option "+args[0]);

@@ -4,16 +4,18 @@
  * Runtime Errors: 
  */
 
+package quicksort;
 import java.util.Random;
 
 public class Sort<T extends Comparable<T>> {
     private T[] input;
     private boolean ascend;
-    Random random = new Random();
+    Random random;
 
     public Sort(T[] input, boolean ascend) {
         this.input = input;
         this.ascend = ascend;
+        random = new Random();
     }
 
     //boolean ascend determines sort order
@@ -51,10 +53,11 @@ public class Sort<T extends Comparable<T>> {
         return input;
     }
 
-    private void quicksort(int left, int right) {
-        //do the sort
+    private void quicksort(int start, int end) {
+        if(end-start <= 1) return;
+        int left = start; int right = end;
         while(left <= right) {
-            int pivot = random.nextInt(input.length);
+            int pivot = (end-start)/2;
             while(compare(input[left], input[pivot]) < 0){
                 left++;
             }
@@ -66,9 +69,8 @@ public class Sort<T extends Comparable<T>> {
                 left++;
                 right--;
             }
-            quicksort(0, right);
-            quicksort(left, input.length-1);
         }
-        
+        quicksort(start, right);
+        quicksort(left, end);
     }
 }

@@ -1,3 +1,4 @@
+package quicksort;
 import java.util.Random;
 
 public class Quick {
@@ -12,7 +13,7 @@ public class Quick {
         this.size = size;
     }
 
-    public void go(String type, boolean ascend, int size) {
+    public void go() {
 	    /*
          * Get the type, build a random array, then sort it;
          * Integers and Floats range from 0-100

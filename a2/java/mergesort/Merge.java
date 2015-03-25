@@ -1,3 +1,4 @@
+package mergesort;
 import java.util.Random;
 
 public class Merge {
@@ -12,7 +13,7 @@ public class Merge {
         this.size = size;
     }
 
-    public void go(String type, boolean ascend, int size) {
+    public void go() {
 	    /*
          * Get the type, build a random array, then sort it;
          * Integers and Floats range from 0-100
