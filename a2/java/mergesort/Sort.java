@@ -1,7 +1,7 @@
 /*
  * Alexander Marshall - 100487187
  * Compile Errors: <5
- * Runtime Errors: 
+ * Runtime Errors: <5 
  */
 
 package mergesort;
@@ -17,7 +17,7 @@ public class Sort<T extends Comparable<T>> {
     }
 
     //boolean ascend determines sort order
-    public int compare(T a, T b) {
+    private int compare(T a, T b) {
         if(ascend) {
             return a.compareTo(b);
         } else {
@@ -42,32 +42,44 @@ public class Sort<T extends Comparable<T>> {
         }
     }
 
-    public T[] sort() {
+    public void sort() {
         this.print();
         System.out.print("Sorting... ");
         int n = input.length;
         //do the sort
-        mergesort(0, n-1);
+        mergesort(0, input.length-1);
         System.out.println("Done! ");
         this.print();
-        return input;
     }
 
-    private void mergesort(int start, int end) {
-        int mid = start/end; int left = start; int right = mid+1;
-        if(compare(input[end], input[right]) <= 0){
-            return;
+    private void mergesort(int low, int high) {
+        if(low < high) {
+            int middle = low + (high - low) / 2;
+            mergesort(low, middle);
+            mergesort(middle+1, high);
+            merge(low, middle, high);
+        }
+    }
+
+    private void merge(int low, int middle, int high) {
+        T[] holder = input;
+
+        int i = low; int j = middle+1; int k = low;
+
+        while(i <= middle && j <= high) {
+            if(compare(holder[i], holder[j]) <= 0) {
+                input[k] = holder[i];
+                i++;
+            } else {
+                input[k] = holder[j];
+                j++;
+            }
+            k++;
         }
 
-        while(left <= mid && right <= end){
-            if(compare(input[left], input[right]) <= 0) {
-                left++;
-            } else {
-                T temp = input[right];
-                System.arraycopy(input, left, input, left+1, right-left);
-                input[left] = temp;
-                left++; mid++; right++;
-            }
+        while(i <= middle) {
+            input[k] = holder[i];
+            k++; i++;
         }
     }
 }
