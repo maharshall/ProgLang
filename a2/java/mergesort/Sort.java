@@ -8,12 +8,13 @@ package mergesort;
 import java.util.Random;
 
 public class Sort<T extends Comparable<T>> {
-    private T[] input;
+    private T[] input, holder;
     private boolean ascend;
 
     public Sort(T[] input, boolean ascend) {
         this.input = input;
         this.ascend = ascend;
+        this.holder = input;
     }
 
     //boolean ascend determines sort order
@@ -62,8 +63,9 @@ public class Sort<T extends Comparable<T>> {
     }
 
     private void merge(int low, int middle, int high) {
-        T[] holder = input;
-
+        for(int x = low; x <= high; x++) {
+            holder[x] = input[x];
+        }
         int i = low; int j = middle+1; int k = low;
 
         while(i <= middle && j <= high) {
@@ -79,7 +81,8 @@ public class Sort<T extends Comparable<T>> {
 
         while(i <= middle) {
             input[k] = holder[i];
-            k++; i++;
+            k++; 
+            i++;
         }
     }
 }
