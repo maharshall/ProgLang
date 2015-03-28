@@ -70,19 +70,14 @@ public class Sort<T extends Comparable<T>> {
 
         while(i <= middle && j <= high) {
             if(compare(holder[i], holder[j]) <= 0) {
-                input[k] = holder[i];
-                i++;
+                input[k++] = holder[i++];
             } else {
-                input[k] = holder[j];
-                j++;
+                input[k++] = holder[j++];
             }
-            k++;
         }
 
         while(i <= middle) {
-            input[k] = holder[i];
-            k++; 
-            i++;
+            input[k++] = holder[i++];
         }
     }
 }

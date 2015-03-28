@@ -27,13 +27,6 @@ public class Sort<T extends Comparable<T>> {
         }
     }
 
-    //Swap based on array index
-    private void swap(int a, int b) {
-        T temp = input[a];
-        input[a] = input[b];
-        input[b] = temp;
-    }
-
     //Prints arrays of length <= 30
     private void print() {
         if(input.length <= 30) {
