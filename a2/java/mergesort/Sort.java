@@ -8,13 +8,14 @@ package mergesort;
 import java.util.Random;
 
 public class Sort<T extends Comparable<T>> {
-    private T[] input, holder;
+    private T[] input;
+    private Object[] holder;
     private boolean ascend;
 
     public Sort(T[] input, boolean ascend) {
         this.input = input;
         this.ascend = ascend;
-        this.holder = input;
+        holder = new Object[input.length];
     }
 
     //boolean ascend determines sort order
@@ -69,15 +70,15 @@ public class Sort<T extends Comparable<T>> {
         int i = low; int j = middle+1; int k = low;
 
         while(i <= middle && j <= high) {
-            if(compare(holder[i], holder[j]) <= 0) {
-                input[k++] = holder[i++];
+            if(compare((T)holder[i], (T)holder[j]) <= 0) {
+                input[k++] = (T)holder[i++];
             } else {
-                input[k++] = holder[j++];
+                input[k++] = (T)holder[j++];
             }
         }
 
         while(i <= middle) {
-            input[k++] = holder[i++];
+            input[k++] = (T)holder[i++];
         }
     }
 }

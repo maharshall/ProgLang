@@ -1,5 +1,5 @@
 //Alexander Marshall 100487187
-//Compile Errors:
+//Compile Errors: <10
 //Runtime Errors:
 
 package mergesort {
@@ -11,6 +11,7 @@ package mergesort {
     }
 
     class Sort[T <% Ordered[T]](input: Array[T]) {
+        var holder = new Array[T](input.length)
         def swap(a:Int, b:Int) = {
             var temp:T = input(a)
             input(a) = input(b)
@@ -18,15 +19,50 @@ package mergesort {
         }
 
         def printArr() = {
-            println(input.deep.mkString("\n"))
+            println(input.mkString(" "))
         }
         
-        def sort () = {
+        def sort() = {
             this.printArr()
             print("Sorting... ")
-            //Do the sort
+            mergesort(0, input.length-1)
             println("Done!")
             this.printArr()
+        }
+
+        def mergesort(low:Int, high:Int) : Unit = {
+            if(low < high) {
+                val middle:Int = low + (high-low)/2
+                mergesort(low, middle)
+                mergesort(middle+1, high)
+                merge(low, middle, high)
+            }
+        }
+
+        def merge(low:Int, middle:Int, high:Int) = {
+            for(x <- low to high) {
+                holder(x) = input(x)
+            }
+            var i:Int = low
+            var j:Int = middle+1
+            var k:Int = low
+
+            while(i <= middle && j <= high) {
+                if(holder(i) <= holder(j)) {
+                    input(k) = holder(i)
+                    i = i+1
+                } else {
+                    input(k) = holder(j)
+                    j = j+1
+                }
+                k = k+1
+            }
+
+            while(i <= middle) {
+                input(k) = holder(i)
+                i = i+1
+                k = k+1
+            }
         }
     }
 }
