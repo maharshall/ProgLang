@@ -54,23 +54,22 @@ public class Sort<T extends Comparable<T>> {
     }
 
     private void quicksort(int start, int end) {
-        if(end-start <= 1) return;
-        int left = start; int right = end;
-        while(left <= right) {
-            int pivot = (end-start)/2;
-            while(compare(input[left], input[pivot]) < 0){
-                left++;
+        if(start < end) {
+            T pivot = input[end];
+            int i = start; int j = end;
+
+            while(i != j) {
+                if(compare(input[i], pivot) < 0) {
+                    i++;
+                } else {
+                    input[j] = input[i];
+                    input[i] = input[j-1];
+                    j--;
+                }
             }
-            while(compare(input[right], input[pivot]) > 0){
-                right--;
-            }
-            if(left <= right) {
-                swap(left, right);
-                left++;
-                right--;
-            }
+            input[j] = pivot;
+            quicksort(start, j-1);
+            quicksort(j+1, end);
         }
-        quicksort(start, right);
-        quicksort(left, end);
     }
 }
