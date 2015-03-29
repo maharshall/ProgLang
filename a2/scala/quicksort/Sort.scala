@@ -3,14 +3,14 @@
 //Runtime Errors:
 
 package quicksort {
-    class Quick[T <% Ordered[T]](input: Array[T]) {
+    class Quick[T](input: Array[T])(implicit o: Ordering[T]) {
         def go() = {
             val s = new Sort(input)
             s.sort()
         }
     }
 
-    class Sort[T <% Ordered[T]](input: Array[T]) {
+    class Sort[T <% Ordered[T]](input: Array[T])(implicit o: Ordering[T]) {
         def swap(a:Int, b:Int) = {
             var temp:T = input(a)
             input(a) = input(b)

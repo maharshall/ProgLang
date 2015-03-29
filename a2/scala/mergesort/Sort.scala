@@ -3,15 +3,15 @@
 //Runtime Errors:
 
 package mergesort {
-    class Merge[T <% Ordered[T]](input: Array[T]) {
+    class Merge[T](input: Array[T])(implicit o: Ordering[T]) {
         def go() = {
             val s = new Sort(input)
             s.sort()
         }
     }
 
-    class Sort[T <% Ordered[T]](input: Array[T]) {
-        var holder:Array[T] = Array.empty[T]
+    class Sort[T <% Ordered[T]](input: Array[T])(implicit o: Ordering[T]) {
+        var holder = input
         
         def printArr() = {
             println(input.mkString(" "))
