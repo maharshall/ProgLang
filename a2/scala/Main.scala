@@ -5,7 +5,7 @@ import quicksort.Quick
 import mergesort.Merge
 
 object Main {
-    def main(args: Array[String]) = {
+    def main[T: Manifest](args: Array[String]) = {
         if(args.length < 4) {
             println("Usage: scala Main [Bubble/Quick/Merge] [Integer/String/Float] [ascend/descend] [size]")
             System.exit(1)
@@ -20,12 +20,12 @@ object Main {
             case _         => println("Invalid option "+args(2))
         }
 
-        var randArr = new Array[Int](size)
+        var randArr:Array[Any]
 
         args(1).toLowerCase() match {
             case "integer" => randArr = Array.fill(size)(util.Random.nextInt(100))
-        //    case "string"  => randArr = Array.fill(size)(util.Random.alphanumeric)
-        //    case "float"   => randArr = Array.fill(size)(util.Random.nextFloat()*101.0f)
+            case "string"  => randArr = Array.fill(size)(util.Random.alphanumeric)
+            case "float"   => randArr = Array.fill(size)(util.Random.nextFloat()*101.0f)
             case _         => println("Invalid option "+args(1))
         }
 

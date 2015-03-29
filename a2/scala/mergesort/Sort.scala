@@ -11,13 +11,8 @@ package mergesort {
     }
 
     class Sort[T <% Ordered[T]](input: Array[T]) {
-        var holder = new Array[T](input.length)
-        def swap(a:Int, b:Int) = {
-            var temp:T = input(a)
-            input(a) = input(b)
-            input(b) = temp
-        }
-
+        var holder:Array[T] = Array.empty[T]
+        
         def printArr() = {
             println(input.mkString(" "))
         }
