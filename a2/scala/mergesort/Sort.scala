@@ -14,7 +14,7 @@ package mergesort {
         var holder = input
         
         def printArr() = {
-            println(input.mkString(" "))
+            if(input.length < 30) println(input.mkString(" "))
         }
         
         def sort() = {
