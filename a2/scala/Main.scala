@@ -3,43 +3,63 @@
 import bubblesort.Bubble
 import quicksort.Quick
 import mergesort.Merge
+import scala.math.Ordered._
 
 object Main {
     def main(args: Array[String]) = {
-        if(args.length < 4) {
-            println("Usage: scala Main [Bubble/Quick/Merge] [Integer/String/Float] [ascend/descend] [size]")
+        if(args.length < 3) {
+            println("Usage: scala Main [Bubble/Quick/Merge] [Integer/Char/Float] [size]")
             System.exit(1)
         }
 
-        val size:Int = args(3).toInt
+        val size:Int = args(2).toInt
         var ascend:Boolean = true
 
-        args(2).toLowerCase() match {
-            case "descend" => ascend = false
-            case "ascend"  => ascend = true
-            case _         => println("Invalid option "+args(2))
-        }
-
-        var randArr = new Array[Int](size)
-
         args(1).toLowerCase() match {
-            case "integer" => randArr = Array.fill(size)(util.Random.nextInt(100))
-        //    case "string"  => randArr = Array.fill(size)(util.Random.alphanumeric)
-        //    case "float"   => randArr = Array.fill(size)(util.Random.nextFloat()*101.0f)
+            case "integer" => 
+                var randInt = Array.fill(size)(util.Random.nextInt(100))
+                args(0).toLowerCase() match {
+                    case "bubble" =>
+                        val b = new Bubble(randInt)
+                        b.go()
+                    case "quick" =>
+                        val q = new Quick(randInt)
+                        q.go()
+                    case "merge" =>
+                        val m = new Merge(randInt)
+                        m.go()
+                    case _ => println("Invalid option "+args(0))
+                }
+            case "char"  => 
+                var randStr = Array.fill(size)(util.Random.nextPrintableChar())
+                args(0).toLowerCase() match {
+                    case "bubble" =>
+                        val b = new Bubble(randStr)
+                        b.go()
+                    case "quick" =>
+                        val q = new Quick(randStr)
+                        q.go()
+                    case "merge" =>
+                        val m = new Merge(randStr)
+                        m.go()
+                    case _ => println("Invalid option "+args(0))
+                }
+            case "float"   => 
+                var randFloat = Array.fill(size)(util.Random.nextFloat()*101.0f)
+                args(0).toLowerCase() match {
+                    case "bubble" =>
+                        val b = new Bubble(randFloat)
+                        b.go()
+                    case "quick" =>
+                        val q = new Quick(randFloat)
+                        q.go()
+                    case "merge" =>
+                        val m = new Merge(randFloat)
+                        m.go()
+                    case _ => println("Invalid option "+args(0))
+                }
             case _         => println("Invalid option "+args(1))
         }
 
-        args(0).toLowerCase() match {
-            case "bubble" =>
-                val b = new Bubble(randArr)
-                b.go()
-            case "quick" =>
-                val q = new Quick(randArr)
-                q.go()
-            case "merge" =>
-                val m = new Merge(randArr)
-                m.go()
-            case _ => println("Invalid option "+args(0))
-        }
     }
 }
