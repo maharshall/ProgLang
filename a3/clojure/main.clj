@@ -1,4 +1,7 @@
 (ns main)
+(require '[bubblesort.sort :as bub])
+(require '[mergesort.sort :as merg])
+(require '[quicksort.sort :as qck])
 
 ;Use this to generate random strings
 (def alphanumeric "abcdefghijklmnopqrstuvwxyz1234567890")
@@ -8,46 +11,6 @@
 ;Use this to convert string->int
 (defn parse-int [s]
   (Integer. (re-find #"\d+" s)))
-
-;=====BUBBLE SORT=====
-(defn bubble-sort [xs]
-  (letfn [(bubble [acc x]
-                  (if (seq acc)
-                    (if (> 0 (compare x (peek acc)))
-                      (conj (pop acc) x (peek acc))
-                      (conj acc x))
-                    [x]))]
-         (loop [xs xs]
-           (let [bubbled (reduce bubble [] xs)]
-             (if (= xs bubbled)
-               bubbled
-               (recur bubbled))))))
-
-;=====QUICK SORT=====
-(defn quick-sort [[pvt & xs]]
-  (when pvt
-    (let [smaller #(< % pvt)]
-      (lazy-cat (quick-sort (filter smaller xs))
-                [pvt]
-                (quick-sort (remove smaller xs))))))
-
-;=====MERGE SORT=====
-(defn merge* [left right]
-  (cond (nil? left) right
-        (nil? right) left
-        true (let [[l & *left] left
-                   [r & *right] right]
-               (if (<= l r) (cons l (merge* *left right))
-                            (cons r (merge* left *right))))))
-
-(defn merge-sort [xs]
-  (let [[x & *xs] xs]
-    (if (nil? *xs)
-      xs
-      (let [[left right] (split-at (/ (count xs) 2) xs)]
-        (merge* (merge-sort left) (merge-sort right))))))
-
-
 
 ;Get user input
 (println "What kind of sort? [bubble/merge/quick] ")
@@ -77,7 +40,7 @@
 
 ;Call the correct sort method now
 (case sortType
-  "bubble" (time (println (bubble-sort randList)))
-  "merge" (time (println (merge-sort randList)))
-  "quick" (time (println (quick-sort randList)))
-  "I'm not here to fuck spiders, mate")
+  "bubble" (time (println (bub/bubble-sort randList)))
+  "merge" (time (println (merg/merge-sort randList)))
+  "quick" (time (println (qck/quick-sort randList)))
+  "ECH")

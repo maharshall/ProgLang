@@ -1,12 +1,14 @@
 (ns bubblesort)
 
-(defn bubble [input]
-  (if (or (nil? input) (nil? (second input)))
-    (if (> (first input) (second input))
-      (cons (second input) (cons (first input) (nthrest input 2)))
-      (lazy-cons (first input) (bubble (rest input))))))
-
-(defn bsort [input]
-  (if (= (bubble input) input)
-    input
-    (recur (bubble input))))
+(defn bubble-sort [xs]
+  (letfn [(bubble [acc x]
+                  (if (seq acc)
+                    (if (> 0 (compare x (peek acc)))
+                      (conj (pop acc) x (peek acc))
+                      (conj acc x))
+                    [x]))]
+         (loop [xs xs]
+           (let [bubbled (reduce bubble [] xs)]
+             (if (= xs bubbled)
+               bubbled
+               (recur bubbled))))))
