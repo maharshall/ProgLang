@@ -1,7 +1,7 @@
 (ns main)
-(require '[bubblesort.sort :as bub])
-(require '[mergesort.sort :as merg])
-(require '[quicksort.sort :as qck])
+(require '[bubblesort.sort])
+(require '[mergesort.sort])
+(require '[quicksort.sort])
 
 ;Use this to generate random strings
 (def alphanumeric "abcdefghijklmnopqrstuvwxyz1234567890")
@@ -40,7 +40,7 @@
 
 ;Call the correct sort method now
 (case sortType
-  "bubble" (time (println (bub/bubble-sort randList)))
-  "merge" (time (println (merg/merge-sort randList)))
-  "quick" (time (println (qck/quick-sort randList)))
+  "bubble" (time (println (bubblesort.sort/bubble-sort randList)))
+  "merge" (time (println (mergesort.sort/merge-sort randList)))
+  "quick" (time (println (quicksort.sort/quick-sort randList)))
   "ECH")

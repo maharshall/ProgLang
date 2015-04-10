@@ -1,14 +1,14 @@
-(ns bubblesort)
+(ns bubblesort.sort)
 
-(defn bubble-sort [xs]
+(defn bubble-sort [in]
   (letfn [(bubble [acc x]
                   (if (seq acc)
                     (if (> 0 (compare x (peek acc)))
                       (conj (pop acc) x (peek acc))
                       (conj acc x))
                     [x]))]
-         (loop [xs xs]
-           (let [bubbled (reduce bubble [] xs)]
-             (if (= xs bubbled)
+         (loop [in in]
+           (let [bubbled (reduce bubble [] in)]
+             (if (= in bubbled)
                bubbled
                (recur bubbled))))))
