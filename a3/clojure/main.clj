@@ -1,7 +1,4 @@
 (ns main)
-;(require '[bubblesort.sort])
-;(require '[mergesort.sort])
-;(require '[quicksort.sort])
 
 ;Use this to generate random strings
 (def alphanumeric "abcdefghijklmnopqrstuvwxyz1234567890")
@@ -13,46 +10,43 @@
   (Integer. (re-find #"\d+" s)))
 
 ;BUBBLE SORT
-(defn bubble-sort [in]
-  (def f1 1) (def f2 1) (def i 0)
-  (while (= f1 f2) (do
-    (def f2 0)
-    (if (> (nth in i) (nth in (inc i)))
-      ((assoc in (inc i) (nth in i) i (nth in (inc i)))
-      (def f2 1)
-      (println "f1->" f1 " f2->" f2 " i->" i)))
-    (if (= (inc i) (count in)) (def i 0) (def i (inc i))))))
+(defn bubble-sort [in size]
+  (def flag 1)
+  (while (= flag 1) (do
+    (def flag 0)
+    (loop [i 0]
+      (when (< i size)
+        (if (> (nth in i) (nth in (inc i)))
+          ((def temp (nth in i))
+            (assoc in i (nth in (inc i)))
+            (assoc in (inc i) temp)))
+        (recur (inc i)))))))
 
 ;MERGE SORT
 (defn merger [in low middle high]
-  (def x low)
-  (def holder [])
-  (while (<= x high) (do
-    (assoc holder x (nth in x))))
+  ;(def x low) (def holder (vector (repeatedly (count in) 0)))
+  ;(while (< x high) (do
+    ;(println "x->" x)
+    ;(assoc holder x (nth in x)) (def x (inc x))))
+  (def holder in)
 
   (def i low) (def j (inc middle)) (def k low)
 
-  (while (and (<= i middle) (<= j high)) (do
+  (while (and (< i middle) (< j high)) (do
     (if (< (nth holder i) (nth holder j))
-      ((assoc in k (nth holder i))
-        (def i (inc i))
-        (def k (inc k)))
-      ((assoc in k (nth holder j))
-       (def j (inc j))
-       (def k (inc k))))))
+      ((assoc in k (nth holder i)) (def i (inc i)) (def k (inc k)))
+      ((assoc in k (nth holder j)) (def j (inc j)) (def k (inc k))))))
 
-  (while (<= i middle) (do
-    (assoc in k (nth holder i))
-    (def k (inc k))
-    (def i (inc i)))))
+  (while (< i middle) (do
+    (assoc in k (nth holder i)) (def k (inc k)) (def i (inc i)))))
 
 (defn merge-sort [in low high]
   (if (< low high)
-    ((def middle (+ low (/ (- high low) 2)))
-    (merge-sort in low middle)
-    (merge-sort in (inc middle) high)
-    (merger in low middle high))))
-
+    ((def middle (+ low (quot (- high low) 2)))
+     (println "low->" low " middle->" middle " high->" high)
+     (merge-sort in low middle)
+     (merge-sort in (inc middle) high)
+     (merger in low middle high))))
 
 ;QUICK SORT
 (defn quick-sort [in start end]
@@ -81,20 +75,21 @@
 
 ;Make the necesarry list
 (case valType
-  "int" (def randList (vector (repeatedly size #(rand-int 100))))
+  "int" (def randList (vector (take size (repeatedly #(rand-int 100)))))
   "string" (def randList (repeatedly size #(get-random-string 10)))
   "float" (def randList (repeatedly size #(rand 100)))
   "STREETS 112 TIL THE DAY I FUCKING DIE")
 
+(def randList [15 27 86 35 28 22 81 10 88 56])
+
 (println "Before Sorting:")
 (println randList)
 
+(println "After Sorting:")
+
 ;Call the correct sort method now
 (case sortType
-  "bubble" (time (bubble-sort randList))
+  "bubble" (time (bubble-sort randList size))
   "merge" (time (merge-sort randList 0 (dec size)))
   "quick" (time (quick-sort randList 0 (dec size)))
   "I'VE NEVER SEEN A 113 AND I NEVER FUCKING WILL")
-
-(println "After Sorting:")
-(println randList)
