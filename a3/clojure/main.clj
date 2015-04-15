@@ -10,60 +10,49 @@
   (Integer. (re-find #"\d+" s)))
 
 ;BUBBLE SORT
-(defn bubble-sort [in size]
-  (def flag 1)
-  (while (= flag 1) (do
-    (def flag 0)
-    (loop [i 0]
-      (when (< i size)
-        (if (> (nth in i) (nth in (inc i)))
-          ((def temp (nth in i))
-            (assoc in i (nth in (inc i)))
-            (assoc in (inc i) temp)))
-        (recur (inc i)))))))
+(defn bubble [in]
+  (if (or (nil? in) (nil? (second in)))
+    in
+    (if (> (first in) (second in))
+      (cons (second in) (cons (first in) (nthrest in 2)))
+      (cons (first in) (bubble (rest in))))))
+
+(defn bubble-sort [in]
+  (if (= (bubble in) in)
+    in
+    (recur (bubble in))))
 
 ;MERGE SORT
-(defn merger [in low middle high]
-  ;(def x low) (def holder (vector (repeatedly (count in) 0)))
-  ;(while (< x high) (do
-    ;(println "x->" x)
-    ;(assoc holder x (nth in x)) (def x (inc x))))
-  (def holder in)
+(comment (defn merger
+  ([left right]
+   (merger (list left right)))
+  ([left right]
+   (loop [l left, r right, result[]]
+     (let [lhead (first l), rhead (first r)]
+       (cond
+         (nil? lhead) (concat result r)
+         (nil? rhead) (concat result l)
+         (<= lhead rhead) (recur (rest l) r (conj result lhead))
+         true (recur l (rest r) (conj result rhead)))))))
 
-  (def i low) (def j (inc middle)) (def k low)
-
-  (while (and (< i middle) (< j high)) (do
-    (if (< (nth holder i) (nth holder j))
-      ((assoc in k (nth holder i)) (def i (inc i)) (def k (inc k)))
-      ((assoc in k (nth holder j)) (def j (inc j)) (def k (inc k))))))
-
-  (while (< i middle) (do
-    (assoc in k (nth holder i)) (def k (inc k)) (def i (inc i)))))
-
-(defn merge-sort [in low high]
-  (if (< low high)
-    ((def middle (+ low (quot (- high low) 2)))
-     (println "low->" low " middle->" middle " high->" high)
-     (merge-sort in low middle)
-     (merge-sort in (inc middle) high)
-     (merger in low middle high))))
-
+(defn mergesort [xs]
+  ((fn mergesort-counted [xs n]
+     (if (<= n 1)
+       xs
+       (let [middle (bit-shift-right n 1)]
+         (merger (map mergesort-counted
+                      (split-at middle xs)
+                      [middle (- n middle)])))))
+  xs (count xs)))
+)
 ;QUICK SORT
-(defn quick-sort [in start end]
-  (if (< start end)
-    ((def pivot (nth in end))
-    (def i start) (def j end)
-
-    (while (not= i j) (do
-      (if (< (nth in i) pivot)
-        (def i (inc i))
-        ((assoc in j (nth in i))
-        (assoc in i (nth in (dec j)))
-        (def j (dec j))))))
-  
-      (assoc in j pivot)
-      (quick-sort in start (dec j))
-      (quick-sort in (inc j) end))))
+(defn quick-sort [in]
+  (if (empty? in)
+    '()
+    (let [pvt (first in)
+          smaller (filter #(< % pvt) (rest in))
+          larger (filter #(>= % pvt) (rest in))]
+      (concat (quick-sort smaller) pvt (quick-sort larger)))))
 
 ;Get user input
 (println "What kind of sort? [bubble/merge/quick] ")
@@ -75,21 +64,18 @@
 
 ;Make the necesarry list
 (case valType
-  "int" (def randList (vector (take size (repeatedly #(rand-int 100)))))
+  "int" (def randList (repeatedly size #(rand-int 100)))
   "string" (def randList (repeatedly size #(get-random-string 10)))
   "float" (def randList (repeatedly size #(rand 100)))
-  "STREETS 112 TIL THE DAY I FUCKING DIE")
-
-(def randList [15 27 86 35 28 22 81 10 88 56])
+  "default")
 
 (println "Before Sorting:")
 (println randList)
-
 (println "After Sorting:")
 
 ;Call the correct sort method now
 (case sortType
-  "bubble" (time (bubble-sort randList size))
-  "merge" (time (merge-sort randList 0 (dec size)))
-  "quick" (time (quick-sort randList 0 (dec size)))
-  "I'VE NEVER SEEN A 113 AND I NEVER FUCKING WILL")
+  "bubble" (time (bubble-sort randList))
+  "merge" (time (merge-sort randList ))
+  "quick" (time (quick-sort randList))
+  "default")
