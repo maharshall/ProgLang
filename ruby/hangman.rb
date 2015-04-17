@@ -20,13 +20,17 @@ while true
     80.times {print "="}
     puts ""
     
+    #loop through chars of key
     key.split("").each do |i|
         if guesses.include? i
+            #print char if it has been guessed
             print " #{i.upcase!} "
+            #update guesses to check if user has won
             correct += 1
         elsif i == " "
             print "\t"
         else
+            #print underscore for unknown letters
             print " _ "
         end
     end
@@ -35,6 +39,7 @@ while true
     80.times {print "="}
     
     if correct == key.length
+        #user has all the letters. Win!
         abort("\nYou Win!")
     end
     
