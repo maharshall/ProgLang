@@ -13,6 +13,7 @@ faults = 5
 #string for storing guessed characters
 guesses = "."
 
+#I realize this is bad practice... but it was easy
 while true
     correct = 1 #initialize to 1 to include space
     print "\n\n\n"
@@ -21,6 +22,7 @@ while true
     puts ""
     
     #loop through chars of key
+    #Here, i is a char itself, and not its index
     key.split("").each do |i|
         if guesses.include? i
             #print char if it has been guessed
